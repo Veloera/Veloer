@@ -1122,7 +1122,8 @@ async fn binary_size_transcript_snapshot() {
                             }
                             has_emitted_history = true;
                             transcript.push_str(&lines_to_single_string(&lines));
-                            crate::insert_history::insert_history_lines(&mut terminal, lines);
+                            crate::insert_history::insert_history_lines(&mut terminal, lines)
+                                .expect("Failed to insert history lines in test");
                         }
                     }
                 }
@@ -1143,7 +1144,8 @@ async fn binary_size_transcript_snapshot() {
                             }
                             has_emitted_history = true;
                             transcript.push_str(&lines_to_single_string(&lines));
-                            crate::insert_history::insert_history_lines(&mut terminal, lines);
+                            crate::insert_history::insert_history_lines(&mut terminal, lines)
+                                .expect("Failed to insert history lines in test");
                         }
                     }
                 }
@@ -2189,7 +2191,8 @@ fn chatwidget_exec_and_status_layout_vt100_snapshot() {
     term.set_viewport_area(viewport);
 
     for lines in drain_insert_history(&mut rx) {
-        crate::insert_history::insert_history_lines(&mut term, lines);
+        crate::insert_history::insert_history_lines(&mut term, lines)
+            .expect("Failed to insert history lines in test");
     }
 
     term.draw(|f| {
@@ -2266,7 +2269,8 @@ printf 'fenced within fenced\n'
             while let Ok(app_ev) = rx.try_recv() {
                 if let AppEvent::InsertHistoryCell(cell) = app_ev {
                     let lines = cell.display_lines(width);
-                    crate::insert_history::insert_history_lines(&mut term, lines);
+                    crate::insert_history::insert_history_lines(&mut term, lines)
+                        .expect("Failed to insert history lines in test");
                     inserted_any = true;
                 }
             }
@@ -2284,7 +2288,8 @@ printf 'fenced within fenced\n'
         }),
     });
     for lines in drain_insert_history(&mut rx) {
-        crate::insert_history::insert_history_lines(&mut term, lines);
+        crate::insert_history::insert_history_lines(&mut term, lines)
+            .expect("Failed to insert history lines in test");
     }
 
     assert_snapshot!(term.backend().vt100().screen().contents());
