@@ -149,7 +149,6 @@ pub(crate) struct ResponsesApiRequest<'a> {
     pub(crate) input: &'a Vec<ResponseItem>,
     pub(crate) tools: &'a [serde_json::Value],
     pub(crate) tool_choice: &'static str,
-    pub(crate) parallel_tool_calls: bool,
     pub(crate) reasoning: Option<Reasoning>,
     pub(crate) store: bool,
     pub(crate) stream: bool,
@@ -279,7 +278,6 @@ mod tests {
             input: &input,
             tools: &tools,
             tool_choice: "auto",
-            parallel_tool_calls: false,
             reasoning: None,
             store: false,
             stream: true,
@@ -320,7 +318,6 @@ mod tests {
             input: &input,
             tools: &tools,
             tool_choice: "auto",
-            parallel_tool_calls: false,
             reasoning: None,
             store: false,
             stream: true,
@@ -356,7 +353,6 @@ mod tests {
             input: &input,
             tools: &tools,
             tool_choice: "auto",
-            parallel_tool_calls: false,
             reasoning: None,
             store: false,
             stream: true,
@@ -368,4 +364,6 @@ mod tests {
         let v = serde_json::to_value(&req).expect("json");
         assert!(v.get("text").is_none());
     }
+
+    // parallel_tool_calls flag removed: scheduling is internal.
 }
